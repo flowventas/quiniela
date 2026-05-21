@@ -84,11 +84,15 @@
       border-radius: 8px;
       color: var(--brand-dark);
       display: grid;
-      font-size: 18px;
-      font-weight: 900;
       height: 38px;
       justify-items: center;
       width: 38px;
+    }
+
+    .brand-logo {
+      display: block;
+      height: 30px;
+      width: 30px;
     }
 
     .brand-text {
@@ -846,7 +850,18 @@
     <header class="topbar">
       <div class="topbar-inner">
         <div class="brand" aria-label="Quiniela Mundialista">
-          <div class="brand-mark">Q</div>
+          <div class="brand-mark">
+            <svg class="brand-logo" viewBox="0 0 64 64" role="img" aria-label="Logo de Quiniela Mundialista">
+              <rect x="7" y="7" width="50" height="50" rx="13" fill="#f8fffb"/>
+              <path d="M13 45c8-9 16-13 25-13 6 0 11 2 16 6" fill="none" stroke="#007a5a" stroke-width="4" stroke-linecap="round"/>
+              <path d="M17 18h30" stroke="#c79a2b" stroke-width="4" stroke-linecap="round"/>
+              <path d="M32 18v28" stroke="#dbe8df" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="32" cy="34" r="11" fill="#09251d"/>
+              <path d="M32 24l6 5-2 7h-8l-2-7 6-5z" fill="#ffffff"/>
+              <path d="M22 35l6 1m16-1l-6 1m-10 8l3-7m5 7l-3-7" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="48" cy="17" r="4" fill="#007a5a"/>
+            </svg>
+          </div>
           <div class="brand-text">
             <div class="brand-title">Quiniela Mundialista</div>
             <div class="brand-subtitle">Ganador + marcador exacto</div>
