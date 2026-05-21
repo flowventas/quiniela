@@ -7,18 +7,21 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #14213d;
-      --muted: #657085;
-      --line: #dde3ea;
+      --ink: #102033;
+      --muted: #697586;
+      --line: #dce3ea;
       --panel: #ffffff;
-      --page: #f5f7fb;
-      --brand: #006d77;
-      --brand-dark: #064e56;
-      --accent: #e9c46a;
-      --good: #2a9d8f;
-      --warn: #e76f51;
-      --soft: #e7f3f3;
-      --shadow: 0 18px 45px rgba(20, 33, 61, 0.08);
+      --page: #f3f6f8;
+      --brand: #007a5a;
+      --brand-dark: #07543f;
+      --accent: #c79a2b;
+      --good: #178f6b;
+      --warn: #d44d37;
+      --soft: #e8f4ef;
+      --nav: #09251d;
+      --nav-2: #103a2f;
+      --shadow: 0 12px 28px rgba(16, 32, 51, 0.08);
+      --shadow-soft: 0 8px 18px rgba(16, 32, 51, 0.06);
     }
 
     * {
@@ -28,7 +31,9 @@
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--page);
+      background:
+        linear-gradient(180deg, rgba(9, 37, 29, 0.05), rgba(243, 246, 248, 0) 240px),
+        var(--page);
       color: var(--ink);
     }
 
@@ -48,8 +53,9 @@
     }
 
     .topbar {
-      background: #ffffff;
-      border-bottom: 1px solid var(--line);
+      background: var(--nav);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px rgba(9, 37, 29, 0.16);
       position: sticky;
       top: 0;
       z-index: 20;
@@ -74,9 +80,9 @@
 
     .brand-mark {
       align-items: center;
-      background: var(--brand);
+      background: #ffffff;
       border-radius: 8px;
-      color: #fff;
+      color: var(--brand-dark);
       display: grid;
       font-size: 18px;
       font-weight: 900;
@@ -91,30 +97,36 @@
     }
 
     .brand-title {
+      color: #ffffff;
       font-size: 16px;
       font-weight: 800;
     }
 
     .brand-subtitle {
-      color: var(--muted);
+      color: rgba(255, 255, 255, 0.68);
       font-size: 12px;
     }
 
     .tabs {
-      background: #eef3f7;
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
       display: flex;
       gap: 4px;
       padding: 4px;
       overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
     }
 
     .tab-btn {
       align-items: center;
       background: transparent;
       border-radius: 6px;
-      color: var(--muted);
+      color: rgba(255, 255, 255, 0.72);
       display: flex;
       gap: 7px;
       min-height: 36px;
@@ -124,12 +136,13 @@
 
     .tab-btn.active {
       background: #fff;
-      color: var(--ink);
+      color: var(--brand-dark);
       box-shadow: 0 4px 14px rgba(20, 33, 61, 0.08);
     }
 
     .mode-toggle {
       align-items: center;
+      color: rgba(255, 255, 255, 0.76);
       display: flex;
       gap: 8px;
     }
@@ -167,30 +180,35 @@
     main {
       margin: 0 auto;
       max-width: 1180px;
-      padding: 24px 18px 40px;
+      padding: 22px 18px 40px;
     }
 
     .hero {
-      align-items: end;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
       display: grid;
       gap: 18px;
       grid-template-columns: 1.4fr 0.6fr;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      padding: 18px;
     }
 
     .hero h1 {
-      font-size: clamp(28px, 4vw, 46px);
+      font-size: clamp(24px, 3vw, 34px);
       letter-spacing: 0;
-      line-height: 1.02;
+      line-height: 1.1;
       margin: 0;
       max-width: 760px;
     }
 
     .hero p {
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
-      margin: 10px 0 0;
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 8px 0 0;
       max-width: 680px;
     }
 
@@ -210,6 +228,11 @@
       justify-content: center;
       min-height: 40px;
       padding: 0 14px;
+      transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
     }
 
     .button.primary {
@@ -225,6 +248,10 @@
       background: #fff;
       border: 1px solid var(--line);
       color: var(--ink);
+    }
+
+    .button.secondary:hover {
+      border-color: #b7c5d1;
     }
 
     .button.ghost {
@@ -253,8 +280,20 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
       padding: 18px;
+      position: relative;
+    }
+
+    .stat::before {
+      background: var(--brand);
+      content: "";
+      height: 4px;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
 
     .stat-label {
@@ -272,12 +311,13 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-soft);
       overflow: hidden;
     }
 
     .panel-header {
       align-items: center;
+      background: #fbfcfd;
       border-bottom: 1px solid var(--line);
       display: flex;
       gap: 12px;
@@ -384,6 +424,11 @@
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .phase-filter::-webkit-scrollbar {
+      display: none;
     }
 
     .order-controls {
@@ -415,17 +460,28 @@
       color: #fff;
     }
 
+    .chip:hover {
+      border-color: #aab9c4;
+    }
+
     .match-list {
       display: grid;
       gap: 12px;
     }
 
     .match-card {
+      background: #ffffff;
       border: 1px solid var(--line);
       border-radius: 8px;
       display: grid;
       gap: 12px;
       padding: 14px;
+      transition: border-color 140ms ease, box-shadow 140ms ease;
+    }
+
+    .match-card:hover {
+      border-color: #bdcbd6;
+      box-shadow: 0 10px 22px rgba(16, 32, 51, 0.06);
     }
 
     .match-main {
@@ -440,6 +496,7 @@
     }
 
     .team {
+      color: var(--ink);
       font-weight: 850;
       min-width: 0;
       overflow-wrap: anywhere;
@@ -451,7 +508,7 @@
 
     .flag {
       align-items: center;
-      background: #f7fafc;
+      background: #f8fafb;
       border: 1px solid var(--line);
       border-radius: 8px;
       display: inline-grid;
@@ -480,9 +537,13 @@
 
     .score {
       align-items: center;
+      background: #f5f8fa;
+      border: 1px solid var(--line);
+      border-radius: 8px;
       display: flex;
       gap: 6px;
       justify-content: center;
+      padding: 6px;
       white-space: nowrap;
     }
 
@@ -490,7 +551,7 @@
     .score select {
       min-height: 38px;
       text-align: center;
-      width: 54px;
+      width: 58px;
     }
 
     .meta {
@@ -576,7 +637,9 @@
       display: inline-flex;
       font-size: 12px;
       font-weight: 750;
+      justify-content: center;
       padding: 5px 9px;
+      white-space: nowrap;
     }
 
     .status-pill.done {
@@ -599,6 +662,10 @@
       .topbar-inner {
         align-items: stretch;
         display: grid;
+      }
+
+      .mode-toggle {
+        justify-content: flex-start;
       }
 
       .hero-actions {
@@ -652,6 +719,7 @@
 
       .match-main .status-pill {
         grid-area: status;
+        justify-self: stretch;
         text-align: left;
       }
 
@@ -685,7 +753,23 @@
 
     @media (max-width: 560px) {
       main {
-        padding: 18px 12px 32px;
+        padding: 14px 10px 32px;
+      }
+
+      .topbar-inner {
+        padding: 12px 10px;
+      }
+
+      .hero {
+        padding: 14px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .hero p {
+        font-size: 13px;
       }
 
       .stats-grid {
@@ -695,6 +779,10 @@
       .panel-header {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .match-card {
+        padding: 12px;
       }
     }
   </style>
@@ -729,8 +817,8 @@
     <main>
       <section class="hero">
         <div>
-          <h1>Una quiniela clara para todos, sin limite de participantes.</h1>
-          <p>Se juega en 6 fases: grupos, dieciseisavos, octavos, cuartos, semifinal y final. Cada acierto de ganador suma, y el marcador exacto da puntos extra.</p>
+          <h1>Quiniela Mundialista 2026</h1>
+          <p>Participantes, pronosticos, resultados oficiales y ranking en una sola vista compartida.</p>
         </div>
         <div class="hero-actions">
           <span id="syncStatus" class="status-pill">Modo local</span>
