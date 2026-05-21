@@ -383,7 +383,7 @@
 
     table {
       border-collapse: collapse;
-      min-width: 720px;
+      min-width: 420px;
       width: 100%;
     }
 
@@ -888,12 +888,29 @@
                   <th>#</th>
                   <th>Participante</th>
                   <th>Puntos</th>
-                  <th>Ganadores</th>
-                  <th>Marcadores exactos</th>
-                  <th>Pronosticos</th>
                 </tr>
               </thead>
               <tbody id="standingsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="height: 16px;"></div>
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Tabla fase de grupos</h2>
+            <span class="status-pill">Solo partidos de grupos</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Participante</th>
+                  <th>Puntos</th>
+                </tr>
+              </thead>
+              <tbody id="groupStandingsBody"></tbody>
             </table>
           </div>
         </div>
@@ -1254,6 +1271,7 @@ Final|W101|W102|2026-07-19T13:00|Final||Estadio Nueva York/Nueva Jersey|Nueva Yo
       predictionsList: document.getElementById("predictionsList"),
       resultsList: document.getElementById("resultsList"),
       standingsBody: document.getElementById("standingsBody"),
+      groupStandingsBody: document.getElementById("groupStandingsBody"),
       participantsBody: document.getElementById("participantsBody"),
       matchesSetupList: document.getElementById("matchesSetupList"),
       participantForm: document.getElementById("participantForm"),
@@ -1505,7 +1523,8 @@ Final|W101|W102|2026-07-19T13:00|Final||Estadio Nueva York/Nueva Jersey|Nueva Yo
       return { points, winner, exact };
     }
 
-    function standings() {
+    function standings(phase = "") {
+      const matches = phase ? state.matches.filter((match) => match.phase === phase) : state.matches;
       return state.participants.map((participant) => {
         const row = {
           participant,
@@ -1515,7 +1534,7 @@ Final|W101|W102|2026-07-19T13:00|Final||Estadio Nueva York/Nueva Jersey|Nueva Yo
           predictions: 0
         };
 
-        state.matches.forEach((match) => {
+        matches.forEach((match) => {
           const prediction = getPrediction(participant.id, match.id);
           if (hasScore(prediction.homeGoals) && hasScore(prediction.awayGoals)) row.predictions += 1;
           const scored = scorePrediction(match, prediction);
@@ -1771,16 +1790,18 @@ Final|W101|W102|2026-07-19T13:00|Final||Estadio Nueva York/Nueva Jersey|Nueva Yo
 
     function renderStandings() {
       const rows = standings();
-      els.standingsBody.innerHTML = rows.length ? rows.map((row, index) => `
+      els.standingsBody.innerHTML = renderSimpleStandingRows(rows, "Agrega participantes para iniciar la tabla.");
+      els.groupStandingsBody.innerHTML = renderSimpleStandingRows(standings("Fase de grupos"), "Agrega participantes para iniciar la tabla de grupos.");
+    }
+
+    function renderSimpleStandingRows(rows, emptyMessage) {
+      return rows.length ? rows.map((row, index) => `
         <tr>
           <td><span class="rank">${index + 1}</span></td>
           <td><strong>${escapeHtml(row.participant.name)}</strong></td>
           <td><strong>${row.points}</strong></td>
-          <td>${row.winners}</td>
-          <td>${row.exacts}</td>
-          <td>${row.predictions}/${state.matches.length}</td>
         </tr>
-      `).join("") : "<tr><td colspan=\"6\">Agrega participantes para iniciar la tabla.</td></tr>";
+      `).join("") : `<tr><td colspan="3">${emptyMessage}</td></tr>`;
     }
 
     function renderStats() {
